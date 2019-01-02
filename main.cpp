@@ -39,9 +39,9 @@ bool compare_by_phone_number(const contact &first, const contact &second) {
 }
 
 void print_contacts(const contacts &list) {
-  std::for_each(
-      demo_contacts.begin(), demo_contacts.end(),
-      [](const contact &contact) { std::cout << contact << std::endl; });
+  std::for_each(list.begin(), list.end(), [](const contact &contact) {
+    std::cout << contact << std::endl;
+  });
 }
 
 int main() {
@@ -60,6 +60,15 @@ int main() {
             compare_by_phone_number);
   print_contacts(demo_contacts);
   std::cout << std::endl;
+
+  std::cout << "First names with 'B'... " << std::endl;
+  std::vector<contact> people_with_b;
+  std::copy_if(demo_contacts.begin(), demo_contacts.end(),
+               std::back_inserter(people_with_b), [](const contact &person) {
+                 const std::string &first_name = std::get<0>(person);
+                 return first_name.find('B') != std::string::npos;
+               });
+  print_contacts(people_with_b);
 
   return 0;
 }
