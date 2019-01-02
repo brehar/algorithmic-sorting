@@ -26,15 +26,40 @@ inline std::ostream &operator<<(std::ostream &output, const contact &person) {
   return output;
 }
 
-int main() {
-  std::sort(demo_contacts.begin(), demo_contacts.end(),
-            [](const contact &left, const contact &right) -> bool {
-              return std::get<1>(left) < std::get<1>(right);
-            });
+bool compare_by_first_name(const contact &first, const contact &second) {
+  return std::get<0>(first) < std::get<0>(second);
+}
 
+bool compare_by_last_name(const contact &first, const contact &second) {
+  return std::get<1>(first) < std::get<1>(second);
+}
+
+bool compare_by_phone_number(const contact &first, const contact &second) {
+  return std::get<2>(first) < std::get<2>(second);
+}
+
+void print_contacts(const contacts &list) {
   std::for_each(
       demo_contacts.begin(), demo_contacts.end(),
       [](const contact &contact) { std::cout << contact << std::endl; });
+}
+
+int main() {
+  std::cout << "Sort by first name..." << std::endl;
+  std::sort(demo_contacts.begin(), demo_contacts.end(), compare_by_first_name);
+  print_contacts(demo_contacts);
+  std::cout << std::endl;
+
+  std::cout << "Sort by last name..." << std::endl;
+  std::sort(demo_contacts.begin(), demo_contacts.end(), compare_by_last_name);
+  print_contacts(demo_contacts);
+  std::cout << std::endl;
+
+  std::cout << "Sort by phone number..." << std::endl;
+  std::sort(demo_contacts.begin(), demo_contacts.end(),
+            compare_by_phone_number);
+  print_contacts(demo_contacts);
+  std::cout << std::endl;
 
   return 0;
 }
